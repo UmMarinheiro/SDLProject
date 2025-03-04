@@ -71,20 +71,29 @@ void process_input()
             break;
         case SDL_KEYDOWN:
             if (event.key.keysym.sym == SDLK_ESCAPE) game_is_running = FALSE;
+            if (event.key.keysym.sym == SDLK_w) w = TRUE;
+            if (event.key.keysym.sym == SDLK_a) a = TRUE;
+            if (event.key.keysym.sym == SDLK_s) s = TRUE;
+            if (event.key.keysym.sym == SDLK_d) d = TRUE;
             break;
+        case SDL_KEYUP:
+            if (event.key.keysym.sym == SDLK_w) w = FALSE;
+            if (event.key.keysym.sym == SDLK_a) a = FALSE;
+            if (event.key.keysym.sym == SDLK_s) s = FALSE;
+            if (event.key.keysym.sym == SDLK_d) d = FALSE;
     }
 }
 void update()
 {
-    int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks() - last_frame_time);
+    //int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks() - last_frame_time);
 
-    if(time_to_wait > 0 && time_to_wait < FRAME_TARGET_TIME) SDL_Delay(time_to_wait);
+    //if(time_to_wait > 0 && time_to_wait < FRAME_TARGET_TIME) SDL_Delay(time_to_wait);
 
     float delta_time = (SDL_GetTicks() - last_frame_time) / 1000.0f;
     last_frame_time  = SDL_GetTicks();
 
-    ball.y += 50 * delta_time; 
-    ball.x += 50 * delta_time; 
+    ball.y += 50 * (s - w) * delta_time; 
+    ball.x += 50 * (d - a) * delta_time; 
 }
 void render()
 {

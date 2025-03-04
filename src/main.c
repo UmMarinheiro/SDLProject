@@ -1,5 +1,5 @@
-#include "./game.h"
-#include "./windowManager.h"
+#include "../headers/game.h"
+#include "../headers/windowManager.h"
 
 int main()
 {

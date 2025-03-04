@@ -1,9 +1,9 @@
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL.h>
-#include "./constants.h"
-#include "./game.h"
-#include "./windowManager.h"
+#include "../headers/constants.h"
+#include "../headers/game.h"
+#include "../headers/windowManager.h"
 
 int game_is_running = FALSE;
 int last_frame_time = 0;

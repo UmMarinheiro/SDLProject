@@ -1,16 +1,13 @@
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL.h>
-#include "../headers/constants.h"
-#include "../headers/game.h"
-#include "../headers/windowManager.h"
+#include "../include/constants.h"
+#include "../include/game.h"
 
-int game_is_running = FALSE;
+extern int game_is_running;
+extern SDL_Renderer* renderer;
+
 int last_frame_time = 0;
-
-void set_game_is_running(int _game_is_running) {game_is_running = _game_is_running;};
-int get_game_is_running() {return game_is_running;};
-int get_last_frame_time() {return last_frame_time;};
 
 struct ball 
 {
@@ -57,7 +54,7 @@ void process_input()
 
 void update()
 {
-    /*--Limitar a framerate
+    /*--Limit framerate
     int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks() - last_frame_time);
     if(time_to_wait > 0 && time_to_wait < FRAME_TARGET_TIME) SDL_Delay(time_to_wait);*/
 
@@ -70,8 +67,8 @@ void update()
 
 void render()
 {
-    SDL_SetRenderDrawColor(get_renderer(),0,0,0,255);
-    SDL_RenderClear(get_renderer());
+    SDL_SetRenderDrawColor(renderer,0,0,0,255);
+    SDL_RenderClear(renderer);
 
     SDL_Rect ball_rect = 
     {
@@ -81,8 +78,8 @@ void render()
         (int)ball.height
     };
 
-    SDL_SetRenderDrawColor(get_renderer(), 255, 0, 0, 255);
-    SDL_RenderFillRect(get_renderer(), &ball_rect);
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_RenderFillRect(renderer, &ball_rect);
 
-    SDL_RenderPresent(get_renderer());
+    SDL_RenderPresent(renderer);
 }

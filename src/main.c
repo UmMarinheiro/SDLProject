@@ -1,13 +1,16 @@
-#include "../headers/game.h"
-#include "../headers/windowManager.h"
+#include "../include/game.h"
+#include "../include/windowManager.h"
+#include "../include/constants.h"
+
+int game_is_running = FALSE;
 
 int main()
 {
-    set_game_is_running(initialize_window());
+    game_is_running = initialize_window();
 
     setup();
 
-    while (get_game_is_running())
+    while (game_is_running)
     {
         process_input();
         update();

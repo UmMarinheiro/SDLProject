@@ -1,13 +1,8 @@
-#include <SDL2/SDL.h>
-#include "../headers/constants.h"
-#include "../headers/windowManager.h"
+#include "../include/constants.h"
+#include "../include/windowManager.h"
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
-
-SDL_Window* get_window() {return window;};
-SDL_Renderer* get_renderer() {return renderer;};
-
 
 void destroy_window()
 {

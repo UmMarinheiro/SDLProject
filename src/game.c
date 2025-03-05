@@ -1,30 +1,40 @@
+#include <SDL2/SDL_config_unix.h>
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL.h>
 #include "../include/constants.h"
 #include "../include/game.h"
+#include "../include/snake.h"
 
+#define speed 100
 extern int game_is_running;
 extern SDL_Renderer* renderer;
 
 int last_frame_time = 0;
 
-struct ball 
-{
-    float x;
-    float y;
-    float width;
-    float height;
-} ball;
-
 char w = 0,a = 0,s = 0,d = 0;
+
+snake_part snake[] = 
+{
+    {100,36, 10},
+    {100,34, 10},
+    {100,32, 10},
+    {100,30, 10},
+    {100,28, 10},
+    {100,26, 10},
+    {100,24, 10},
+    {100,22, 10},
+    {100,20, 10},
+    {100,18, 10},
+    {100,16, 10},
+    {100,14, 10},
+    {100,12, 10},
+    {100,10, 10}
+};
+int snake_size = sizeof(snake)/sizeof(snake_part);
 
 void setup()
 {
-    ball.x = 20;
-    ball.y = 20;
-    ball.width = 15;
-    ball.height = 15;
 }
 
 void process_input()
@@ -61,8 +71,9 @@ void update()
     float delta_time = (SDL_GetTicks() - last_frame_time) / 1000.0f;
     last_frame_time  = SDL_GetTicks();
 
-    ball.y += 50 * (s - w) * delta_time; 
-    ball.x += 50 * (d - a) * delta_time; 
+    move_snake(snake, snake_size, 0, 
+        snake[0].x + speed * (d - a) * delta_time,
+        snake[0].y + speed * (s - w) * delta_time);
 }
 
 void render()
@@ -70,16 +81,19 @@ void render()
     SDL_SetRenderDrawColor(renderer,0,0,0,255);
     SDL_RenderClear(renderer);
 
-    SDL_Rect ball_rect = 
+    for (int i = 0; i < snake_size; i++)
     {
-        (int)ball.x,
-        (int)ball.y,
-        (int)ball.width,
-        (int)ball.height
-    };
+        SDL_Rect part_rect = 
+        {
+            (int)snake[i].x,
+            (int)snake[i].y,
+            2*(int)snake[i].radius,
+            2*(int)snake[i].radius
+        };
 
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_RenderFillRect(renderer, &ball_rect);
+        SDL_SetRenderDrawColor(renderer, 255, (int)((i+1)*(255/(float)snake_size)), 0, 255);
+        SDL_RenderFillRect(renderer, &part_rect);  
+    }
 
     SDL_RenderPresent(renderer);
 }

@@ -1,6 +1,5 @@
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_timer.h>
-#include <SDL2/SDL.h>
 #include <stdio.h>
 #include "../include/constants.h"
 #include "../include/game.h"
@@ -12,7 +11,6 @@
 #define SNAKE_RADIUS 5
 
 extern int game_is_running;
-extern SDL_Renderer* renderer;
 
 int last_frame_time = 0;
 
@@ -80,7 +78,7 @@ void update()
     );
 }
 
-void render()
+void render(SDL_Renderer* renderer)
 {
     SDL_SetRenderDrawColor(renderer,0,0,0,255);
     SDL_RenderClear(renderer);

@@ -14,7 +14,7 @@ int main()
     {
         process_input();
         update();
-        render();
+        render(renderer);
     }
 
     destroy_window();

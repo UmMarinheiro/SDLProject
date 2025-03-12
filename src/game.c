@@ -1,6 +1,7 @@
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL.h>
+#include <stdio.h>
 #include "../include/constants.h"
 #include "../include/game.h"
 #include "../include/snake.h"
@@ -23,7 +24,7 @@ void setup()
 {
     for(int i = 0; i < SNAKE_SIZE; i++)
     {
-        snake[i] = (snake_part){100, 2*SNAKE_RADIUS*i, SNAKE_RADIUS};
+        snake[i] = (snake_part){100, 2*SNAKE_RADIUS*i, 0, -1, SNAKE_RADIUS};
     }
 }
 
@@ -54,16 +55,29 @@ void process_input()
 
 void update()
 {
-    /*--Limit framerate
-    int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks() - last_frame_time);
-    if(time_to_wait > 0 && time_to_wait < FRAME_TARGET_TIME) SDL_Delay(time_to_wait);*/
+    //Limit framerate
+    //'int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks() - last_frame_time);
+    //'if(time_to_wait > 0 && time_to_wait < FRAME_TARGET_TIME) SDL_Delay(time_to_wait);
+
+    for(int i = 0; i < SNAKE_SIZE; i++)
+    {
+        printf("%d: (%f,%f)\n", i, snake[i].forwad_x, snake[i].forwad_y);
+    }
 
     float delta_time = (SDL_GetTicks() - last_frame_time) / 1000.0f;
     last_frame_time  = SDL_GetTicks();
 
-    move_snake(snake, SNAKE_SIZE, 0, 
-        snake[0].x + SPEED * (d - a) * delta_time,
-        snake[0].y + SPEED * (s - w) * delta_time);
+    float walk_dir_x = (d - a);
+    float walk_dir_y = (s - w);
+
+    char stoped = !(walk_dir_x || walk_dir_y);
+
+    move_snake(snake, SNAKE_SIZE, 19, 
+        snake[19].x + SPEED * delta_time * walk_dir_x,
+        snake[19].y + SPEED * delta_time * walk_dir_y,
+        stoped?snake[19].forwad_x:walk_dir_x,
+        stoped?snake[19].forwad_y:walk_dir_y
+    );
 }
 
 void render()

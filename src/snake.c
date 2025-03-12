@@ -2,6 +2,9 @@
 #include <math.h>
 #include <stdio.h>
 
+#define M_PI 3.14159265358979323846
+#define MAX_ANGLE M_PI/4.f
+
 extern int game_is_running;
 
 void stick_part_to(const snake_part *fix, snake_part *join)
@@ -16,12 +19,32 @@ void stick_part_to(const snake_part *fix, snake_part *join)
     vector_y /= vector_size;
 
     float spine_cos = (-vector_x)*(fix->forwad_x) + (-vector_y)*(fix->forwad_y);
-    
-    if(spine_cos < -0.5f) 
+    printf("%f %f\n",spine_cos,cos(MAX_ANGLE));
+    if(spine_cos < cos(MAX_ANGLE)) 
     {
         printf("(%f,%f) (%f,%f)\n",-vector_x,-vector_y,fix->forwad_x,fix->forwad_y);
         printf("Quebrei a coluna com um cosseno de %f :(\n",spine_cos);
-        game_is_running = 0;
+
+        float cross = (fix->forwad_x)*(-vector_y) - (-vector_y)*(fix->forwad_x);
+
+        float temp_vector_x = vector_x;
+
+        if(cross > 0) 
+        {
+            vector_x = cos(MAX_ANGLE)*temp_vector_x - sin(MAX_ANGLE)*vector_y;
+            vector_y = sin(MAX_ANGLE)*temp_vector_x + cos(MAX_ANGLE)*vector_y;
+
+            //printf("Estou quebrado no sentido horário...");
+        }
+        else if(cross < 0)
+        {
+            vector_x = cos(-MAX_ANGLE)*temp_vector_x - sin(-MAX_ANGLE)*vector_y;
+            vector_y = sin(-MAX_ANGLE)*temp_vector_x + cos(-MAX_ANGLE)*vector_y;
+
+            //printf("Estou quebrado no sentido anti-horário...");
+        }
+        //if(game_is_running) getchar();
+        //game_is_running = 0;
     }
     join -> forwad_x = -vector_x;
     join -> forwad_y = -vector_y;

@@ -1,3 +1,4 @@
+#include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_timer.h>
 #include <stdio.h>
@@ -8,7 +9,7 @@
 #define SPEED 200
 
 #define SNAKE_SIZE 20
-#define SNAKE_RADIUS 5
+#define SNAKE_RADIUS 10
 
 extern int game_is_running;
 
@@ -57,10 +58,10 @@ void update()
     //'int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks() - last_frame_time);
     //'if(time_to_wait > 0 && time_to_wait < FRAME_TARGET_TIME) SDL_Delay(time_to_wait);
 
-    for(int i = 0; i < SNAKE_SIZE; i++)
-    {
-        printf("%d: (%f,%f)\n", i, snake[i].forwad_x, snake[i].forwad_y);
-    }
+    //for(int i = 0; i < SNAKE_SIZE; i++)
+    //{
+    //    printf("%d: (%f,%f)\n", i, snake[i].forwad_x, snake[i].forwad_y);
+    //}
 
     float delta_time = (SDL_GetTicks() - last_frame_time) / 1000.0f;
     last_frame_time  = SDL_GetTicks();
@@ -94,7 +95,7 @@ void render(SDL_Renderer* renderer)
         };
 
         SDL_SetRenderDrawColor(renderer,
-         255,
+         255*(i%2),
          (int)((i+1)*(255/(float)SNAKE_SIZE)),
          255-(int)((i+1)*(255/(float)SNAKE_SIZE)), 255);
         SDL_RenderFillRect(renderer, &part_rect);  

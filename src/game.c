@@ -2,11 +2,16 @@
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL.h>
+#include <stdio.h>
 #include "../include/constants.h"
 #include "../include/game.h"
 #include "../include/snake.h"
 
 #define speed 100
+
+#define snake_size 100
+#define snake_radius 20
+
 extern int game_is_running;
 extern SDL_Renderer* renderer;
 
@@ -14,27 +19,14 @@ int last_frame_time = 0;
 
 char w = 0,a = 0,s = 0,d = 0;
 
-snake_part snake[] = 
-{
-    {100,36, 10},
-    {100,34, 10},
-    {100,32, 10},
-    {100,30, 10},
-    {100,28, 10},
-    {100,26, 10},
-    {100,24, 10},
-    {100,22, 10},
-    {100,20, 10},
-    {100,18, 10},
-    {100,16, 10},
-    {100,14, 10},
-    {100,12, 10},
-    {100,10, 10}
-};
-int snake_size = sizeof(snake)/sizeof(snake_part);
+snake_part snake[snake_size];
 
 void setup()
 {
+    for(int i = 0; i < snake_size; i++)
+    {
+        snake[i] = (snake_part){100, 2*snake_radius*i, snake_radius};
+    }
 }
 
 void process_input()
@@ -91,7 +83,10 @@ void render()
             2*(int)snake[i].radius
         };
 
-        SDL_SetRenderDrawColor(renderer, 255, (int)((i+1)*(255/(float)snake_size)), 0, 255);
+        SDL_SetRenderDrawColor(renderer,
+         255,
+         (int)((i+1)*(255/(float)snake_size)),
+         255-(int)((i+1)*(255/(float)snake_size)), 255);
         SDL_RenderFillRect(renderer, &part_rect);  
     }
 

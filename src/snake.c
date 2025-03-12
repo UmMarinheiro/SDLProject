@@ -1,53 +1,25 @@
 #include "../include/snake.h"
 #include <math.h>
-#include <stdio.h>
 
-void update_snake_part_left(snake_part snake[], int snake_size, int index, float x, float y)
-{   
-    snake[index].x = x;
-    snake[index].y = y;
-
-    if(index - 1 < 0) return;
-    int next_index = index - 1;
-
-    float vector_x = snake[next_index].x - x;
-    float vector_y = snake[next_index].y - y;
-
-    float vector_size = sqrt(vector_x*vector_x + vector_y*vector_y);
-    printf("%f\n",vector_size);
-    int desired_distance = snake[index].radius + snake[next_index].radius;
-
-    vector_x *= desired_distance/vector_size;
-    vector_y *= desired_distance/vector_size;
-
-    update_snake_part_left(snake, snake_size, next_index, x + vector_x, y + vector_y);
-}
-
-void update_snake_part_right(snake_part snake[], int snake_size, int index, float x, float y)
+void stick_part_to(const snake_part *fix, snake_part *join)
 {
-    snake[index].x = x;
-    snake[index].y = y;
+    float vector_x = join -> x - fix -> x;
+    float vector_y = join -> y - fix -> y;
 
-    if(index + 1 >= snake_size) return;
-    int next_index = index + 1;
-
-    float vector_x = snake[next_index].x - x;
-    float vector_y = snake[next_index].y - y;
-
+    int desired_distance = join -> radius + fix -> radius;
     float vector_size = sqrt(vector_x*vector_x + vector_y*vector_y);
-    int desired_distance = snake[index].radius + snake[next_index].radius;
 
     vector_x *= desired_distance/vector_size;
     vector_y *= desired_distance/vector_size;
 
-    update_snake_part_right(snake, snake_size, next_index, x + vector_x, y + vector_y);
+    join -> x = fix -> x + vector_x;
+    join -> y = fix -> y + vector_y;
 }
-
 void move_snake(snake_part snake[], int snake_size, int index, float x, float y)
 {
     snake[index].x = x;
     snake[index].y = y;
 
-    update_snake_part_left(snake,snake_size,index,x,y);
-    update_snake_part_right(snake,snake_size,index,x,y);
+    for(int i = index; i < snake_size-1; i++) stick_part_to(&snake[i],&snake[i+1]);
+    for(int i = index; i > 1; i--) stick_part_to(&snake[i],&snake[i-1]);
 }

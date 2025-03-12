@@ -1,7 +1,6 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_timer.h>
-#include <stdio.h>
 #include "../include/constants.h"
 #include "../include/game.h"
 #include "../include/snake.h"

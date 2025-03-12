@@ -21,5 +21,5 @@ void move_snake(snake_part snake[], int snake_size, int index, float x, float y)
     snake[index].y = y;
 
     for(int i = index; i < snake_size-1; i++) stick_part_to(&snake[i],&snake[i+1]);
-    for(int i = index; i > 1; i--) stick_part_to(&snake[i],&snake[i-1]);
+    for(int i = index; i > 0; i--) stick_part_to(&snake[i],&snake[i-1]);
 }

@@ -1,16 +1,14 @@
-#include <SDL2/SDL_config_unix.h>
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL.h>
-#include <stdio.h>
 #include "../include/constants.h"
 #include "../include/game.h"
 #include "../include/snake.h"
 
-#define speed 100
+#define SPEED 200
 
-#define snake_size 100
-#define snake_radius 20
+#define SNAKE_SIZE 20
+#define SNAKE_RADIUS 5
 
 extern int game_is_running;
 extern SDL_Renderer* renderer;
@@ -19,13 +17,13 @@ int last_frame_time = 0;
 
 char w = 0,a = 0,s = 0,d = 0;
 
-snake_part snake[snake_size];
+snake_part snake[SNAKE_SIZE];
 
 void setup()
 {
-    for(int i = 0; i < snake_size; i++)
+    for(int i = 0; i < SNAKE_SIZE; i++)
     {
-        snake[i] = (snake_part){100, 2*snake_radius*i, snake_radius};
+        snake[i] = (snake_part){100, 2*SNAKE_RADIUS*i, SNAKE_RADIUS};
     }
 }
 
@@ -63,9 +61,9 @@ void update()
     float delta_time = (SDL_GetTicks() - last_frame_time) / 1000.0f;
     last_frame_time  = SDL_GetTicks();
 
-    move_snake(snake, snake_size, 0, 
-        snake[0].x + speed * (d - a) * delta_time,
-        snake[0].y + speed * (s - w) * delta_time);
+    move_snake(snake, SNAKE_SIZE, 0, 
+        snake[0].x + SPEED * (d - a) * delta_time,
+        snake[0].y + SPEED * (s - w) * delta_time);
 }
 
 void render()
@@ -73,20 +71,20 @@ void render()
     SDL_SetRenderDrawColor(renderer,0,0,0,255);
     SDL_RenderClear(renderer);
 
-    for (int i = 0; i < snake_size; i++)
+    for (int i = 0; i < SNAKE_SIZE; i++)
     {
         SDL_Rect part_rect = 
         {
-            (int)snake[i].x,
-            (int)snake[i].y,
+            (int)snake[i].x-(int)snake[i].radius,
+            (int)snake[i].y-(int)snake[i].radius,
             2*(int)snake[i].radius,
             2*(int)snake[i].radius
         };
 
         SDL_SetRenderDrawColor(renderer,
          255,
-         (int)((i+1)*(255/(float)snake_size)),
-         255-(int)((i+1)*(255/(float)snake_size)), 255);
+         (int)((i+1)*(255/(float)SNAKE_SIZE)),
+         255-(int)((i+1)*(255/(float)SNAKE_SIZE)), 255);
         SDL_RenderFillRect(renderer, &part_rect);  
     }
 

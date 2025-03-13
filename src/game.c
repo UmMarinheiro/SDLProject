@@ -75,13 +75,11 @@ void update()
 
     char stoped = !(walk_dir_x || walk_dir_y);
 
-    int index_to_move = 0;
-
-    move_snake(snake, SNAKE_SIZE, index_to_move, 
-        snake[index_to_move].x + SPEED * delta_time * walk_dir_x,
-        snake[index_to_move].y + SPEED * delta_time * walk_dir_y,
-        stoped?snake[index_to_move].forwad_x:walk_dir_x,
-        stoped?snake[index_to_move].forwad_y:walk_dir_y
+    move_snake(snake, SNAKE_SIZE, 
+        snake[0].x + SPEED * delta_time * walk_dir_x,
+        snake[0].y + SPEED * delta_time * walk_dir_y,
+        stoped?snake[0].forwad_x:walk_dir_x,
+        stoped?snake[0].forwad_y:walk_dir_y
     );
 }
 

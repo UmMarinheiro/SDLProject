@@ -40,14 +40,13 @@ void stick_part_to(const snake_part *fix, snake_part *to_join)
     to_join -> x = (fix -> x) - desired_distance * (vector_x);
     to_join -> y = (fix -> y) - desired_distance * (vector_y);
 }
-void move_snake(snake_part snake[], int snake_size, int index, float x, float y, float forwad_x, float forwad_y)
+void move_snake(snake_part snake[], int snake_size, float x, float y, float forwad_x, float forwad_y)
 {
-    snake[index].x = x;
-    snake[index].y = y;
+    snake[0].x = x;
+    snake[0].y = y;
 
-    snake[index].forwad_x = forwad_x;
-    snake[index].forwad_y = forwad_y;
+    snake[0].forwad_x = forwad_x;
+    snake[0].forwad_y = forwad_y;
 
-    for(int i = index; i < snake_size-1; i++) stick_part_to(&snake[i],&snake[i+1]);
-    for(int i = index; i > 0; i--) stick_part_to(&snake[i],&snake[i-1]);
+    for(int i = 0; i < snake_size-1; i++) stick_part_to(&snake[i],&snake[i+1]);
 }

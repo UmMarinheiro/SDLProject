@@ -27,8 +27,6 @@ void stick_part_to(const snake_part *fix, snake_part *to_join)
         {
             vector_x = cos(MAX_ANGLE)*(fix->forwad_x) - sin(MAX_ANGLE)*(fix->forwad_y);
             vector_y = sin(MAX_ANGLE)*(fix->forwad_x) + cos(MAX_ANGLE)*(fix->forwad_y);
-
-            //printf("Estou quebrado no sentido horário...\n");
         }
         else if(cross < 0)
         {

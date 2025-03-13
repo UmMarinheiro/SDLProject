@@ -18,6 +18,14 @@ char w = 0,a = 0,s = 0,d = 0;
 
 snake_part snake[SNAKE_SIZE];
 
+void print_snake_directions()
+{
+    for(int i = 0; i < SNAKE_SIZE; i++)
+    {
+        printf("%d: (%f,%f)\n", i, snake[i].forwad_x, snake[i].forwad_y);
+    }
+}
+
 void setup()
 {
     for(int i = 0; i < SNAKE_SIZE; i++)
@@ -57,10 +65,7 @@ void update()
     //'int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks() - last_frame_time);
     //'if(time_to_wait > 0 && time_to_wait < FRAME_TARGET_TIME) SDL_Delay(time_to_wait);
 
-    //for(int i = 0; i < SNAKE_SIZE; i++)
-    //{
-    //    printf("%d: (%f,%f)\n", i, snake[i].forwad_x, snake[i].forwad_y);
-    //}
+    //print_snake_directions();
 
     float delta_time = (SDL_GetTicks() - last_frame_time) / 1000.0f;
     last_frame_time  = SDL_GetTicks();
@@ -70,11 +75,13 @@ void update()
 
     char stoped = !(walk_dir_x || walk_dir_y);
 
-    move_snake(snake, SNAKE_SIZE, 0, 
-        snake[0].x + SPEED * delta_time * walk_dir_x,
-        snake[0].y + SPEED * delta_time * walk_dir_y,
-        stoped?snake[0].forwad_x:walk_dir_x,
-        stoped?snake[0].forwad_y:walk_dir_y
+    int index_to_move = 0;
+
+    move_snake(snake, SNAKE_SIZE, index_to_move, 
+        snake[index_to_move].x + SPEED * delta_time * walk_dir_x,
+        snake[index_to_move].y + SPEED * delta_time * walk_dir_y,
+        stoped?snake[index_to_move].forwad_x:walk_dir_x,
+        stoped?snake[index_to_move].forwad_y:walk_dir_y
     );
 }
 

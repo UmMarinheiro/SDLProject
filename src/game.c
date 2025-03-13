@@ -1,5 +1,6 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>
+#include <SDL2/SDL_render.h>
 #include <SDL2/SDL_timer.h>
 #include "../include/constants.h"
 #include "../include/game.h"
@@ -23,6 +24,20 @@ void print_snake_directions()
     for(int i = 0; i < SNAKE_SIZE; i++)
     {
         printf("%d: (%f,%f)\n", i, snake[i].forwad_x, snake[i].forwad_y);
+    }
+}
+void render_snake_directions(SDL_Renderer* renderer)
+{
+    for (int i = 0; i < SNAKE_SIZE; i++){
+        
+        SDL_SetRenderDrawColor(renderer,
+         255*(i%2),
+         255*((i+1)%2),
+         0, 255);
+        
+        
+        SDL_RenderDrawLine(renderer, (int)snake[i].x, (int)snake[i].y, 
+        (int)(snake[i].x + 2*snake[i].radius*snake[i].forwad_x), ((int)snake[i].y + 2*snake[i].radius*snake[i].forwad_y)); 
     }
 }
 
@@ -87,6 +102,8 @@ void render(SDL_Renderer* renderer)
 {
     SDL_SetRenderDrawColor(renderer,0,0,0,255);
     SDL_RenderClear(renderer);
+
+    //render_snake_directions(renderer);
 
     for (int i = 0; i < SNAKE_SIZE; i++)
     {

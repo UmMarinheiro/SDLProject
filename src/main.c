@@ -4,7 +4,7 @@
 
 int game_is_running = FALSE;
 
-int main()
+int main(int argc, char** argv) 
 {
     game_is_running = initialize_window();
 

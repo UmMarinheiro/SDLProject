@@ -1,5 +1,6 @@
 #include "../include/constants.h"
 #include "../include/windowManager.h"
+#include <stdio.h>
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
